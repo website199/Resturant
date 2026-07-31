@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ember & Oak — Fine Dining Toronto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --charcoal: #1A1A1A;
+  --deep: #111111;
+  --wine: #2D1B1B;
+  --gold: #C9963A;
+  --gold-light: #E8B84B;
+  --ivory: #F2E8D9;
+  --ivory-dim: #C8B89A;
+  --white: #FAFAF8;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--charcoal);
+  color: var(--ivory);
+  overflow-x: hidden;
+}
+
+/* ===== BUTTONS ===== */
+.btn-primary {
+  background: var(--gold);
+  color: var(--deep);
+  padding: 16px 40px;
+  font: 500 0.72rem 'Inter', sans-serif;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.3s;
+  border: none;
+  cursor: pointer;
+}
+.btn-primary:hover { background: var(--gold-light); }
+
+.btn-ghost {
+  border: 1px solid rgba(242,232,217,0.4);
+  color: var(--ivory);
+  padding: 16px 40px;
+  font: 300 0.72rem 'Inter', sans-serif;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s;
+  background: transparent;
+  cursor: pointer;
+}
+.btn-ghost:hover {
+  border-color: var(--ivory);
+  background: rgba(242,232,217,0.08);
+}
+
+/* ===== SECTION EYEBROW ===== */
+.section-eyebrow {
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.section-eyebrow::before {
+  content: '';
+  width: 30px;
+  height: 1px;
+  background: var(--gold);
+}
+
+/* ===== NAVIGATION ===== */
+#navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 28px 60px;
+  transition: background 0.4s, padding 0.4s;
+}
+#navbar.scrolled {
+  background: rgba(17,17,17,0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(201,150,58,0.15);
+  padding: 18px 60px;
+}
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  color: var(--gold);
+  text-decoration: none;
+}
+.nav-logo span { font-style: italic; }
+.nav-links {
+  display: flex;
+  gap: 40px;
+}
+.nav-links a {
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ivory);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-cta {
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  padding: 10px 24px;
+  font: 500 0.72rem 'Inter', sans-serif;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s;
+}
+.nav-cta:hover {
+  background: var(--gold);
+  color: var(--deep);
+}
+
+/* ===== HERO ===== */
+#hero {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background:
+    linear-gradient(to bottom, rgba(17,17,17,0.3) 0%, rgba(17,17,17,0.15) 40%, rgba(17,17,17,0.7) 100%),
+    url('images/hero-bg.jpg') center/cover no-repeat;
+}
+.hero-badge {
+  position: absolute;
+  top: 160px;
+  left: 60px;
+  font-size: 0.68rem;
+  letter-spacing: 0.25em;
+  color: var(--gold);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.hero-badge::before {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: var(--gold);
+}
+.hero-content {
+  text-align: center;
+  z-index: 2;
+  animation: fadeUp 1.2s ease forwards;
+}
+.hero-eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: block;
+}
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(4rem, 9vw, 8rem);
+  font-weight: 300;
+  color: var(--white);
+  line-height: 0.95;
+  margin-bottom: 16px;
+}
+.hero-title span {
+  font-style: italic;
+  color: var(--gold);
+}
+.hero-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(1.1rem, 2vw, 1.6rem);
+  color: var(--ivory-dim);
+  margin-bottom: 40px;
+}
+.hero-ctas {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.scroll-indicator {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+.scroll-indicator span {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ivory-dim);
+  display: block;
+  margin-bottom: 10px;
+}
+.scroll-indicator::after {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 40px;
+  margin: 0 auto;
+  background: linear-gradient(to bottom, var(--ivory-dim), transparent);
+  animation: bounce 2s infinite;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+/* ===== INFO STRIP ===== */
+#info-strip {
+  background: var(--wine);
+  border-top: 1px solid rgba(201,150,58,0.2);
+  border-bottom: 1px solid rgba(201,150,58,0.2);
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+  padding: 20px 60px;
+  flex-wrap: wrap;
+}
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ivory-dim);
+}
+.info-item svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--gold);
+  fill: none;
+  stroke-width: 1.5;
+  flex-shrink: 0;
+}
+
+/* ===== ABOUT ===== */
+#about {
+  padding: 120px 60px;
+  background: var(--charcoal);
+}
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+  max-width: 1200px;
+  margin: auto;
+  align-items: center;
+}
+.about-image-block {
+  position: relative;
+}
+.about-image-block img {
+  width: 100%;
+  aspect-ratio: 4/5;
+  object-fit: cover;
+  display: block;
+}
+.about-accent {
+  position: absolute;
+  bottom: -24px;
+  right: -24px;
+  width: 55%;
+  aspect-ratio: 1/1;
+  border: 1px solid var(--gold);
+  z-index: -1;
+}
+.about-year {
+  position: absolute;
+  top: -16px;
+  left: -16px;
+  background: var(--gold);
+  color: var(--deep);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 10px 18px;
+}
+.about-text-block .section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1.15;
+  margin-bottom: 24px;
+}
+.about-text-block .section-title span {
+  font-style: italic;
+  color: var(--gold);
+}
+.about-body {
+  font-size: 0.95rem;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--ivory-dim);
+  margin-bottom: 16px;
+}
+.about-stats {
+  display: flex;
+  gap: 40px;
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 1px solid var(--gold);
+}
+.stat-number {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.4rem;
+  font-weight: 300;
+  color: var(--gold);
+  display: block;
+}
+.stat-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ivory-dim);
+}
+
+/* ===== MENU ===== */
+#menu {
+  padding: 120px 60px;
+  background: var(--deep);
+}
+.menu-header {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 60px;
+}
+.menu-header .section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+.menu-header .section-title span { font-style: italic; }
+.menu-header p {
+  font-size: 0.95rem;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--ivory-dim);
+}
+.menu-tabs {
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid rgba(201,150,58,0.2);
+  margin-bottom: 50px;
+}
+.menu-tab {
+  background: none;
+  border: none;
+  color: var(--ivory-dim);
+  font: 400 0.72rem 'Inter', sans-serif;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 16px 36px;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.menu-tab.active {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+}
+.menu-tab:hover { color: var(--gold); }
+.menu-panel { display: none; }
+.menu-panel.active { display: block; }
+.menu-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  max-width: 1000px;
+  margin: auto;
+}
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 28px 40px 28px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  gap: 20px;
+}
+.menu-item:nth-child(even) {
+  padding-left: 40px;
+  padding-right: 0;
+  border-left: 1px solid rgba(255,255,255,0.06);
+}
+.menu-item-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--white);
+  margin-bottom: 6px;
+}
+.menu-item-desc {
+  font-size: 0.78rem;
+  color: var(--ivory-dim);
+  line-height: 1.5;
+}
+.menu-item-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  color: var(--gold);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.menu-cta {
+  text-align: center;
+  margin-top: 50px;
+}
+
+/* ===== GALLERY ===== */
+#gallery {
+  padding: 120px 60px;
+  background: var(--charcoal);
+}
+.gallery-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  max-width: 1200px;
+  margin: 0 auto 50px;
+}
+.gallery-header .section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1.15;
+}
+.gallery-header .section-title span { font-style: italic; }
+.gallery-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: 260px 260px;
+  gap: 12px;
+  max-width: 1200px;
+  margin: auto;
+}
+.gallery-item {
+  overflow: hidden;
+  position: relative;
+}
+.gallery-item:first-child { grid-row: 1/3; }
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+.gallery-item:hover img { transform: scale(1.05); }
+
+/* ===== RESERVATION ===== */
+#reservation {
+  padding: 120px 60px;
+  background: var(--wine);
+  position: relative;
+  overflow: hidden;
+}
+#reservation::before {
+  content: 'RESERVE';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18vw;
+  color: rgba(201,150,58,0.04);
+  pointer-events: none;
+  white-space: nowrap;
+}
+.reservation-inner {
+  max-width: 800px;
+  margin: auto;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+.reservation-inner .section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1.15;
+  margin-bottom: 40px;
+}
+.res-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  text-align: left;
+}
+.res-form-group {
+  display: flex;
+  flex-direction: column;
+}
+.res-form-group.full-width { grid-column: 1/-1; }
+.res-form-group label {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.res-form-group input,
+.res-form-group select,
+.res-form-group textarea {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(201,150,58,0.25);
+  color: var(--ivory);
+  padding: 14px 16px;
+  font: 300 0.85rem 'Inter', sans-serif;
+  outline: none;
+  transition: border-color 0.3s;
+}
+.res-form-group input:focus,
+.res-form-group select:focus,
+.res-form-group textarea:focus {
+  border-color: var(--gold);
+}
+.res-form-group textarea {
+  height: 100px;
+  resize: vertical;
+}
+.res-form-group input::placeholder,
+.res-form-group textarea::placeholder {
+  color: rgba(242,232,217,0.35);
+}
+.res-form-group select {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+.res-form-group select option {
+  background: var(--deep);
+  color: var(--ivory);
+}
+
+/* ===== TESTIMONIALS ===== */
+#testimonials {
+  padding: 120px 60px;
+  background: var(--deep);
+}
+.testimonials-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+.testimonials-header .section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1.15;
+}
+.testimonials-header .section-title span { font-style: italic; }
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  max-width: 1200px;
+  margin: auto;
+}
+.testimonial-card {
+  border: 1px solid rgba(201,150,58,0.15);
+  padding: 40px 36px;
+  transition: border-color 0.3s;
+}
+.testimonial-card:hover {
+  border-color: rgba(201,150,58,0.4);
+}
+.testimonial-stars {
+  color: var(--gold);
+  font-size: 0.85rem;
+  letter-spacing: 3px;
+  margin-bottom: 20px;
+}
+.testimonial-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--ivory-dim);
+  margin-bottom: 24px;
+}
+.testimonial-author {
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* ===== FOOTER ===== */
+#footer {
+  background: #0A0A0A;
+  padding: 80px 60px 40px;
+  border-top: 1px solid rgba(201,150,58,0.15);
+}
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 60px;
+  max-width: 1200px;
+  margin: 0 auto 60px;
+}
+.footer-brand .nav-logo {
+  display: inline-block;
+  margin-bottom: 20px;
+}
+.footer-brand p {
+  font-size: 0.85rem;
+  line-height: 1.8;
+  color: var(--ivory-dim);
+  max-width: 280px;
+}
+.footer-col h4 {
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 24px;
+}
+.footer-col a,
+.footer-col p {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--ivory-dim);
+  text-decoration: none;
+  line-height: 2.2;
+  transition: color 0.3s;
+}
+.footer-col a:hover { color: var(--gold); }
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: auto;
+  padding-top: 30px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.footer-bottom p {
+  font-size: 0.72rem;
+  color: rgba(200,184,154,0.4);
+}
+.footer-social {
+  display: flex;
+  gap: 24px;
+}
+.footer-social a {
+  font-size: 0.72rem;
+  color: var(--ivory-dim);
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  transition: color 0.3s;
+}
+.footer-social a:hover { color: var(--gold); }
+
+/* ===== REVEAL ANIMATION ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  #navbar { padding: 20px 24px; }
+  #navbar.scrolled { padding: 14px 24px; }
+  .nav-links { display: none; }
+  .hero-badge { left: 24px; top: 120px; }
+  #info-strip { gap: 30px; padding: 16px 24px; }
+  #about, #menu, #gallery, #reservation, #testimonials { padding: 80px 24px; }
+  .about-grid { grid-template-columns: 1fr; gap: 60px; }
+  .about-accent { display: none; }
+  .about-year { left: 0; top: 0; }
+  .menu-grid { grid-template-columns: 1fr; }
+  .menu-item { padding: 28px 0 !important; border-left: none !important; }
+  .gallery-header { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .gallery-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+  }
+  .gallery-item:first-child {
+    grid-column: 1/-1;
+    height: 280px;
+    grid-row: auto;
+  }
+  .res-form { grid-template-columns: 1fr; }
+  .testimonials-grid { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+  #footer { padding: 60px 24px 30px; }
+  .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+}
+</style>
+<base target="_blank">
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">Ember <span>&</span> Oak</a>
+  <div class="nav-links">
+    <a href="#about">Our Story</a>
+    <a href="#menu">Menu</a>
+    <a href="#gallery">Experience</a>
+    <a href="#reservation">Reserve</a>
+  </div>
+  <a href="#reservation" class="nav-cta">Book a Table</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-badge">Est. 2018 · Toronto, Ontario</div>
+  <div class="hero-content">
+    <span class="hero-eyebrow">Fine Dining Experience</span>
+    <h1 class="hero-title">Ember<br><span>& Oak</span></h1>
+    <p class="hero-subtitle">Where fire meets flavour, every evening</p>
+    <div class="hero-ctas">
+      <a href="#reservation" class="btn-primary">Reserve Your Table</a>
+      <a href="#menu" class="btn-ghost">View Menu</a>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- INFO STRIP -->
+<section id="info-strip">
+  <div class="info-item">
+    <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+    147 King St W, Toronto, ON
+  </div>
+  <div class="info-item">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    Tue–Sun: 5:30PM – 11:00PM
+  </div>
+  <div class="info-item">
+    <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    (416) 555-0182
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid reveal">
+    <div class="about-image-block">
+      <img src="images/about.jpg" alt="Ember & Oak interior">
+      <div class="about-accent"></div>
+      <div class="about-year">Since 2018</div>
+    </div>
+    <div class="about-text-block">
+      <div class="section-eyebrow">Our Story</div>
+      <h2 class="section-title">Crafted with fire,<br><span>served with soul</span></h2>
+      <p class="about-body">At Ember & Oak, we believe that exceptional dining begins with respect for the land. Our kitchen celebrates the rich bounty of Canadian terroir — from the pristine waters of the Pacific to the fertile soils of Ontario's farmland. Every dish is a dialogue between fire and ingredient, tradition and innovation.</p>
+      <p class="about-body">Executive Chef Marcus Riel brings two decades of experience from Lyon and Copenhagen, infusing classical technique with Nordic simplicity. The result is a menu that honours place, season, and the quiet artistry of the kitchen.</p>
+      <div class="about-stats">
+        <div>
+          <span class="stat-number">6+</span>
+          <span class="stat-label">Years of Excellence</span>
+        </div>
+        <div>
+          <span class="stat-number">12</span>
+          <span class="stat-label">Local Farm Partners</span>
+        </div>
+        <div>
+          <span class="stat-number">4.9★</span>
+          <span class="stat-label">Guest Rating</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="menu-header reveal">
+    <div class="section-eyebrow">Seasonal Menu</div>
+    <h2 class="section-title">Thoughtfully <span>composed</span></h2>
+    <p>Our menu evolves with the seasons, guided by what is freshest and most vibrant from our network of local farms and purveyors across Canada.</p>
+  </div>
+  <div class="menu-tabs reveal">
+    <button class="menu-tab active" onclick="switchTab(event, 'starters')">Starters</button>
+    <button class="menu-tab" onclick="switchTab(event, 'mains')">Mains</button>
+    <button class="menu-tab" onclick="switchTab(event, 'desserts')">Desserts</button>
+  </div>
+
+  <div id="starters" class="menu-panel active reveal">
+    <div class="menu-grid">
+      <div class="menu-item">
+        <div>
+          <div class="menu-item-name">Chilled Beet Tartare</div>
+          <div class="menu-item-desc">Golden beet, smoked crème fraîche, hazelnuts, dill oil</div>
+        </div>
+        <div class="menu-item-price">$22</div>
+      </div>
+      <div class="menu-item">
+        <div>
+          <div class="menu-item-name">Tuna Crudo</div>
+          <div class="menu-item-desc">Yellowfin tuna, cucumber water, yuzu, sesame tuile</div>
+        </div>
+        <div class="menu-item-price">$26</div>
+      </div>
+      <div class="menu-item">
+        <div>
+          <div class="menu-item-name">Ember-Roasted Bone Marrow</div>
+          <div class="menu-item-desc">Herb gremolata, sourdough, fleur de sel</div>
+        </div>
+        <div class="menu-item-price">$24</div>
+      </div>
+      <div class="menu-item">
+        <div>
+          <div class="menu-item-name">Heirloom Tomato Salad</div>
+          <div class="menu-item-desc">Burrata, basil oil, aged balsamic, micro herbs</div>
+        </div>
+        <div class="menu-item-price">$20</div>
+      </div>
+      <div class="menu-item">
+        <div>
+          <div class="menu-item-name">Foie Gras Torchon</div>
+          <div class="menu-item-desc">Cherry gel, pistachio, toasted brioche</div>
+        </div>
+        <div class="menu-item-price">$34</div>
+      </div>
+      <div class="menu-item">
+        <div>
+          <div class="menu-item-name">Charcuterie Board</div>
+          <div class="menu-item-desc">House-cured meats, condiments, artisan crackers</div>
+        </div>
+        <div class="menu-item-price">$38</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="mains" class="menu-panel reveal">
+    <div class="menu-grid">
+      <div class="menu-item">
+        <div>
+          <div class="menu-item-name">42-Day Dry-Aged Ribeye</div>
+          <div class="menu-item-desc">Ontario beef, bone marrow butter, roasted garlic jus</div>
+        </div>
+        <div class="menu-item-price">$78</div>
+      </div>
+      <div class="menu-item">
+        <div>
+          <div class="menu-item-name">BC Halibut</div>
+          <div class="menu-item-desc">Saffron beurre blanc, asparagus, caperberry</div>
+        </div>
+        <div class="menu-item-price">$58</div>
+      </div>
+      <div class="menu-item">
+        <div>
+          <div class="menu-item-name">Heritage Duck Breast</div>
+          <div class="menu-item-desc">Cherry reduction, wild rice, roasted root vegetables</div>
+        </div>
+        <div class="menu-item-price">$54</div>
+      </div>
+      <div class="menu-item">
+        <div>
+          <div class="menu-item-name">Mushroom Wellington</div>
+          <div class="menu-item-desc">Wild mushroom duxelles, puff pastry, truffle jus (V)</div>
+        </div>
+        <div class="menu-item-price">$46</div>
+      </div>
+      <div class="menu-item">
+        <div>
+          <div class="menu-item-name">Rack of Lamb</div>
+          <div class="menu-item-desc">Herb crust, pommes dauphinoise, rosemary au jus</div>
+        </div>
+        <div class="menu-item-price">$68</div>
+      </div>
+      <div class="menu-item">
+        <div>
+          <div class="menu-item-name">Wagyu Beef Tenderloin</div>
+          <div class="menu-item-desc">Truffle demi-glace, asparagus, potato gratin</div>
+        </div>
+        <div class="menu-item-price">$95</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="desserts" class="menu-panel reveal">
+    <div class="menu-grid">
+      <div class="menu-item">
+        <div>
+          <div class="menu-item-name">Valrhona Chocolate Fondant</div>
+          <div class="menu-item-desc">Warm centre, Tahitian vanilla ice cream, cocoa tuile</div>
+        </div>
+        <div class="menu-item-price">$18</div>
+      </div>
+      <div class="menu-item">
+        <div>
+          <div class="menu-item-name">Lemon Tart</div>
+          <div class="menu-item-desc">Italian meringue, candied zest, raspberry coulis</div>
+        </div>
+        <div class="menu-item-price">$16</div>
+      </div>
+      <div class="menu-item">
+        <div>
+          <div class="menu-item-name">Cheese Selection</div>
+          <div class="menu-item-desc">Three Canadian cheeses, honeycomb, fig jam, crostini</div>
+        </div>
+        <div class="menu-item-price">$24</div>
+      </div>
+      <div class="menu-item">
+        <div>
+          <div class="menu-item-name">Crème Brûlée</div>
+          <div class="menu-item-desc">Madagascan vanilla, caramelised sugar crust</div>
+        </div>
+        <div class="menu-item-price">$15</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-cta reveal">
+    <a href="#reservation" class="btn-primary">Reserve a Table</a>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="gallery-header reveal">
+    <div>
+      <div class="section-eyebrow">The Experience</div>
+      <h2 class="section-title">More than a <span>meal</span></h2>
+    </div>
+    <a href="#reservation" class="btn-ghost">Book Now</a>
+  </div>
+  <div class="gallery-grid reveal">
+    <div class="gallery-item"><img src="images/gallery-1.jpg" alt="Dining experience"></div>
+    <div class="gallery-item"><img src="images/gallery-2.jpg" alt="Plated dish"></div>
+    <div class="gallery-item"><img src="images/gallery-3.jpg" alt="Cocktail"></div>
+    <div class="gallery-item"><img src="images/gallery-4.jpg" alt="Restaurant interior"></div>
+    <div class="gallery-item"><img src="images/gallery-5.jpg" alt="Chef at work"></div>
+  </div>
+</section>
+
+<!-- RESERVATION -->
+<section id="reservation">
+  <div class="reservation-inner reveal">
+    <div class="section-eyebrow" style="justify-content:center;">Reservations</div>
+    <h2 class="section-title">Join us this evening</h2>
+    <form class="res-form" onsubmit="event.preventDefault(); alert('Thank you! Your reservation request has been received. We will confirm shortly.');">
+      <div class="res-form-group">
+        <label>First Name</label>
+        <input type="text" placeholder="John" required>
+      </div>
+      <div class="res-form-group">
+        <label>Last Name</label>
+        <input type="text" placeholder="Doe" required>
+      </div>
+      <div class="res-form-group">
+        <label>Email</label>
+        <input type="email" placeholder="john@example.com" required>
+      </div>
+      <div class="res-form-group">
+        <label>Phone</label>
+        <input type="tel" placeholder="(416) 555-0182" required>
+      </div>
+      <div class="res-form-group">
+        <label>Date</label>
+        <input type="date" required>
+      </div>
+      <div class="res-form-group">
+        <label>Time</label>
+        <select required>
+          <option value="">Select time</option>
+          <option>5:30 PM</option>
+          <option>6:00 PM</option>
+          <option>6:30 PM</option>
+          <option>7:00 PM</option>
+          <option>7:30 PM</option>
+          <option>8:00 PM</option>
+          <option>8:30 PM</option>
+          <option>9:00 PM</option>
+        </select>
+      </div>
+      <div class="res-form-group">
+        <label>Guests</label>
+        <select required>
+          <option value="">Number of guests</option>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+          <option>6</option>
+          <option>7</option>
+        </select>
+      </div>
+      <div class="res-form-group">
+        <label>Occasion</label>
+        <select>
+          <option value="">Select occasion</option>
+          <option>Birthday</option>
+          <option>Anniversary</option>
+          <option>Business Dinner</option>
+          <option>Date Night</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="res-form-group full-width">
+        <label>Special Requests</label>
+        <textarea placeholder="Dietary restrictions, seating preferences, celebrations..."></textarea>
+      </div>
+      <div class="res-form-group full-width">
+        <button type="submit" class="btn-primary" style="width:100%; padding:18px; letter-spacing:0.25em;">Confirm Reservation</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="testimonials-header reveal">
+    <div class="section-eyebrow" style="justify-content:center;">Guest Reviews</div>
+    <h2 class="section-title">What our guests <span>say</span></h2>
+  </div>
+  <div class="testimonials-grid reveal">
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-quote">"The 42-day ribeye was transcendent. Service was impeccable without being stuffy. This is Toronto's finest, full stop."</p>
+      <div class="testimonial-author">Sarah M., Toronto</div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-quote">"We celebrated our anniversary here. Every detail was perfect — the ambiance, the food, the wine pairing. We'll be back for every milestone."</p>
+      <div class="testimonial-author">James & Linda K.</div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-quote">"Chef Riel's tasting menu is a journey. Each course told a story. If you want the best dining experience in the city, this is it."</p>
+      <div class="testimonial-author">David T., Vancouver</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#" class="nav-logo">Ember <span>&</span> Oak</a>
+      <p>An intimate fine dining experience in the heart of Toronto, where Canadian ingredients meet global technique and warm hospitality.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigate</h4>
+      <a href="#about">Our Story</a>
+      <a href="#menu">Menu</a>
+      <a href="#gallery">Experience</a>
+      <a href="#reservation">Reserve</a>
+    </div>
+    <div class="footer-col">
+      <h4>Hours</h4>
+      <p>Tue–Thu: 5:30PM – 10:00PM</p>
+      <p>Fri–Sat: 5:00PM – 11:00PM</p>
+      <p>Sun: 5:00PM – 9:30PM</p>
+    </div>
+    <div class="footer-col">
+      <h4>Find Us</h4>
+      <p>147 King St W<br>Toronto, ON M5H 1J9<br>(416) 555-0182<br>hello@emberandoak.ca</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Ember & Oak. All rights reserved.</p>
+    <div class="footer-social">
+      <a href="#">Instagram</a>
+      <a href="#">Facebook</a>
+      <a href="#">OpenTable</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Navbar scroll effect
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// Menu tab switch
+function switchTab(e, id) {
+  document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
+  e.target.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+// Scroll reveal animation
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
