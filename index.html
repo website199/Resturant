@@ -107,6 +107,7 @@ body {
   font-size: 1.6rem;
   color: var(--gold);
   text-decoration: none;
+  cursor: pointer;
 }
 .nav-logo span { font-style: italic; }
 .nav-links {
@@ -121,6 +122,7 @@ body {
   color: var(--ivory);
   text-decoration: none;
   transition: color 0.3s;
+  cursor: pointer;
 }
 .nav-links a:hover { color: var(--gold); }
 .nav-cta {
@@ -134,6 +136,7 @@ body {
   text-decoration: none;
   display: inline-block;
   transition: all 0.3s;
+  cursor: pointer;
 }
 .nav-cta:hover {
   background: var(--gold);
@@ -150,7 +153,7 @@ body {
   position: relative;
   background:
     linear-gradient(to bottom, rgba(17,17,17,0.3) 0%, rgba(17,17,17,0.15) 40%, rgba(17,17,17,0.7) 100%),
-    url('images/hero-bg.jpg') center/cover no-repeat;
+    url('assets/hero-bg.jpg') center/cover no-repeat;
 }
 .hero-badge {
   position: absolute;
@@ -666,6 +669,7 @@ body {
   text-decoration: none;
   line-height: 2.2;
   transition: color 0.3s;
+  cursor: pointer;
 }
 .footer-col a:hover { color: var(--gold); }
 .footer-bottom {
@@ -691,6 +695,7 @@ body {
   text-decoration: none;
   letter-spacing: 0.1em;
   transition: color 0.3s;
+  cursor: pointer;
 }
 .footer-social a:hover { color: var(--gold); }
 
@@ -741,7 +746,7 @@ body {
 
 <!-- NAVIGATION -->
 <nav id="navbar">
-  <a href="#" class="nav-logo">Ember <span>&</span> Oak</a>
+  <a href="#hero" class="nav-logo">Ember <span>&</span> Oak</a>
   <div class="nav-links">
     <a href="#about">Our Story</a>
     <a href="#menu">Menu</a>
@@ -788,7 +793,7 @@ body {
 <section id="about">
   <div class="about-grid reveal">
     <div class="about-image-block">
-      <img src="images/about.jpg" alt="Ember & Oak interior">
+      <img src="assets/about.jpg" alt="Ember & Oak interior">
       <div class="about-accent"></div>
       <div class="about-year">Since 2018</div>
     </div>
@@ -970,11 +975,11 @@ body {
     <a href="#reservation" class="btn-ghost">Book Now</a>
   </div>
   <div class="gallery-grid reveal">
-    <div class="gallery-item"><img src="images/gallery-1.jpg" alt="Dining experience"></div>
-    <div class="gallery-item"><img src="images/gallery-2.jpg" alt="Plated dish"></div>
-    <div class="gallery-item"><img src="images/gallery-3.jpg" alt="Cocktail"></div>
-    <div class="gallery-item"><img src="images/gallery-4.jpg" alt="Restaurant interior"></div>
-    <div class="gallery-item"><img src="images/gallery-5.jpg" alt="Chef at work"></div>
+    <div class="gallery-item"><img src="assets/gallery-1.jpg" alt="Dining experience"></div>
+    <div class="gallery-item"><img src="assets/gallery-2.jpg" alt="Plated dish"></div>
+    <div class="gallery-item"><img src="assets/gallery-3.jpg" alt="Cocktail"></div>
+    <div class="gallery-item"><img src="assets/gallery-4.jpg" alt="Restaurant interior"></div>
+    <div class="gallery-item"><img src="assets/gallery-5.jpg" alt="Chef at work"></div>
   </div>
 </section>
 
@@ -1082,7 +1087,7 @@ body {
 <footer id="footer">
   <div class="footer-top">
     <div class="footer-brand">
-      <a href="#" class="nav-logo">Ember <span>&</span> Oak</a>
+      <a href="#hero" class="nav-logo">Ember <span>&</span> Oak</a>
       <p>An intimate fine dining experience in the heart of Toronto, where Canadian ingredients meet global technique and warm hospitality.</p>
     </div>
     <div class="footer-col">
@@ -1127,6 +1132,17 @@ function switchTab(e, id) {
   e.target.classList.add('active');
   document.getElementById(id).classList.add('active');
 }
+
+// Smooth scroll for all anchor links (same tab fix)
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
 
 // Scroll reveal animation
 const observer = new IntersectionObserver((entries) => {
