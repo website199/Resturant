@@ -149,6 +149,8 @@ body {
   padding: 4px;
   background: none;
   border: none;
+  z-index: 101;
+  position: relative;
 }
 .nav-hamburger span {
   display: block;
@@ -157,15 +159,18 @@ body {
   background: var(--ivory);
   transition: all 0.3s;
 }
+/* hide hamburger when menu is open */
+.mobile-menu.open ~ * .nav-hamburger,
+body.menu-open .nav-hamburger { display: none; }
 
 /* mobile menu */
 .mobile-menu {
   display: none;
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(17,17,17,0.98);
+  background: rgba(17,17,17,0.99);
   backdrop-filter: blur(20px);
-  z-index: 99;
+  z-index: 200;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -184,14 +189,20 @@ body {
 .mobile-menu a:hover { color: var(--gold); }
 .mobile-menu-close {
   position: absolute;
-  top: 28px; right: 24px;
-  font-size: 1.8rem;
-  color: var(--ivory-dim);
+  top: 24px; right: 22px;
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem;
+  color: var(--ivory);
   cursor: pointer;
-  background: none;
-  border: none;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 50%;
   line-height: 1;
+  z-index: 201;
+  transition: background 0.3s;
 }
+.mobile-menu-close:hover { background: rgba(201,150,58,0.2); color: var(--gold); }
 
 /* ===== HERO ===== */
 #hero {
@@ -207,7 +218,7 @@ body {
 .hero-bg {
   position: absolute;
   inset: 0;
-  background: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1800&q=80') center/cover no-repeat;
+  background: url('assets/hero-bg.jpg') center/cover no-repeat;
   transform: scale(1.04);
   transition: transform 8s ease;
 }
@@ -880,7 +891,7 @@ body {
 <section id="about">
   <div class="about-grid reveal">
     <div class="about-image-block">
-      <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=700&q=80" alt="Chef at work">
+      <img src="assets/about.jpg" alt="Chef at work">
       <div class="about-accent"></div>
       <div class="about-year">Since 2018</div>
     </div>
@@ -954,11 +965,11 @@ body {
     <a href="#reservation" class="btn-ghost">Book Now</a>
   </div>
   <div class="gallery-grid reveal">
-    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1550966871-3ed3cbe818b5?w=800&q=80" alt="Dining room"></div>
-    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500&q=80" alt="Dish"></div>
-    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=500&q=80" alt="Cocktail"></div>
-    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1559847844-5315695dadae?w=500&q=80" alt="Plating"></div>
-    <div class="gallery-item"><img src="https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?w=500&q=80" alt="Chef"></div>
+    <div class="gallery-item"><img src="assets/gallery-1.jpg" alt="Dining room"></div>
+    <div class="gallery-item"><img src="assets/gallery-2.jpg" alt="Dish"></div>
+    <div class="gallery-item"><img src="assets/gallery-3.jpg" alt="Cocktail"></div>
+    <div class="gallery-item"><img src="assets/gallery-4.jpg" alt="Plating"></div>
+    <div class="gallery-item"><img src="assets/gallery-5.jpg" alt="Chef"></div>
   </div>
 </section>
 
@@ -1074,8 +1085,16 @@ window.addEventListener('scroll', () => {
 });
 
 // Mobile menu
-function openMobileMenu() { document.getElementById('mobileMenu').classList.add('open'); document.body.style.overflow='hidden'; }
-function closeMobileMenu() { document.getElementById('mobileMenu').classList.remove('open'); document.body.style.overflow=''; }
+function openMobileMenu() {
+  document.getElementById('mobileMenu').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.querySelector('.nav-hamburger').style.display = 'none';
+}
+function closeMobileMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.body.style.overflow = '';
+  document.querySelector('.nav-hamburger').style.display = 'flex';
+}
 
 // Menu tabs
 function switchTab(e, id) {
